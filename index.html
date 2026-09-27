@@ -1,1 +1,1389 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdul Subhan General Store | Online Grocery & Daily Essentials</title>
+    <style>
+        :root {
+            --primary-color: #121212;
+            --secondary-color: #ff9000;
+            --dark-color: #222222;
+            --light-bg: #f4f6f4;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+            --menu-bg: #ffffff;
+            --text-color: #222222;
+        }
+
+        [data-theme="dark"] {
+            --primary-color: #4caf50;
+            --secondary-color: #ffa720;
+            --dark-color: #222222;
+            --light-bg: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #333333;
+            --menu-bg: #2d2d2d;
+            --text-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+            padding-bottom: 90px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .announcement-bar {
+            background-color: #2e7d32;
+            color: white;
+            text-align: center;
+            font-size: 0.75rem;
+            padding: 0.5rem;
+            font-weight: 600;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 0.8rem 1rem;
+            box-shadow: 0px 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-area h1 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .logo-area p {
+            font-size: 0.65rem;
+            color: #888;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: #d32f2f;
+            color: white;
+            font-size: 0.55rem;
+            padding: 2px 5px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .menu-container {
+            position: relative;
+        }
+
+        .three-dot-btn {
+            background: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 38px;
+            width: 180px;
+            background: var(--menu-bg);
+            border-radius: 8px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+            border: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 14px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.85rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        #profileModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 320px;
+            background: var(--menu-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0px 8px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+            z-index: 2000;
+        }
+
+        #profileModal h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 6px;
+        }
+
+        #profileModal p {
+            font-size: 0.82rem;
+            margin-bottom: 8px;
+        }
+
+        .profile-input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0.8rem;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?w=600') center/cover;
+            color: white;
+            text-align: center;
+            padding: 1.4rem 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero-banner h2 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .hero-banner p {
+            font-size: 0.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .shop-now-btn {
+            background-color: var(--secondary-color);
+            color: #fff;
+            border: none;
+            padding: 0.4rem 0.9rem;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .promo-banner {
+            background-color: #e8f5e9;
+            border: 1px dashed #4caf50;
+            padding: 10px 12px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            color: #1b5e20;
+        }
+
+        .category-title {
+            font-size: 1rem;
+            margin: 1rem 0 0.6rem 0;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            display: inline-block;
+            padding-bottom: 2px;
+            font-weight: 700;
+        }
+
+        /* E-COMMERCE GRID STYLING */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media(min-width: 768px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin-bottom: 6px;
+            background-color: #f9f9f9;
+        }
+
+        .card h3 {
+            font-size: 0.85rem;
+            margin-bottom: 0.15rem;
+            color: var(--text-color);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .card p.variety {
+            color: #888;
+            font-size: 0.7rem;
+            margin-bottom: 0.4rem;
+            flex-grow: 1;
+        }
+
+        .card p.price {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-bottom: 0.4rem;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .qty-btn {
+            background-color: var(--border-color);
+            color: var(--text-color);
+            border: none;
+            border-radius: 4px;
+            width: 24px;
+            height: 24px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .qty-display {
+            font-size: 0.8rem;
+            font-weight: bold;
+            min-width: 16px;
+            text-align: center;
+        }
+
+        .btn {
+            background-color: var(--secondary-color);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .cart-item-row {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+
+        .remove-item-btn {
+            background: none;
+            border: none;
+            color: #d32f2f;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.78rem;
+        }
+
+        .subtotal-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.82rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .summary-row.total {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #d32f2f;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 0.4rem;
+            margin-top: 0.4rem;
+        }
+
+        .checkout-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .section-heading {
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 0.6rem;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.3rem;
+        }
+
+        .radio-option {
+            background: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.6rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .radio-option input {
+            margin-top: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 0.6rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: var(--text-color);
+        }
+
+        .complete-order-btn {
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.8rem;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #toast-notification {
+            position: fixed;
+            bottom: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 4px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+            font-size: 0.78rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 9999;
+            font-weight: 600;
+        }
+
+        #toast-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            font-size: 0.75rem;
+            color: #888;
+            padding: 6px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            width: 25%;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .nav-item.active {
+            color: var(--secondary-color);
+        }
+
+        /* Category Chips Styling */
+        .categories-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 6px 0 10px 0;
+            scrollbar-width: none;
+        }
+        .categories-container::-webkit-scrollbar {
+            display: none;
+        }
+        .cat-chip {
+            padding: 6px 14px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 20px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 0.78rem;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+            flex-shrink: 0;
+        }
+        .cat-chip.active {
+            background: var(--secondary-color);
+            color: #fff;
+            border-color: var(--secondary-color);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        🎁 Free Gift Included on orders above Rs. 3,000! Sahi Daam, Ghar Tak Paigham.
+    </div>
+
+    <header>
+        <div class="logo-area">
+            <h1>Abdul Subhan Store</h1>
+            <p>Trusted General Store</p>
+        </div>
+        <div class="header-actions">
+            <button class="cart-icon-btn" onclick="switchTab('cart')">
+                🛒
+                <span class="cart-badge" id="cart-badge-count">0</span>
+            </button>
+            <div class="menu-container">
+                <button class="three-dot-btn" onclick="toggleMenu()">⋮</button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a onclick="openProfile()">👤 Profile Details</a>
+                    <a onclick="toggleDarkMode()">🌓 Dark/Light Mode</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="profileModal">
+        <h3>User Profile</h3>
+        <p><strong>Name:</strong> <span id="profile-display-name">Not Provided</span></p>
+        <p><strong>Phone:</strong> <span id="profile-display-phone">Not Provided</span></p>
+        <p><strong>Address:</strong> <span id="profile-display-address">Not Provided</span></p>
+        <div id="profileEditMode" style="display: none; margin-top: 8px;">
+            <input type="text" id="edit-name" class="profile-input" placeholder="Apna naam likhein">
+            <input type="text" id="edit-phone" class="profile-input" placeholder="03XXXXXXXXX">
+            <input type="text" id="edit-address" class="profile-input" placeholder="Landhi, Karachi">
+            <button class="btn" style="padding: 6px; background: var(--secondary-color);" onclick="saveProfile()">💾 Save Profile</button>
+        </div>
+        <button class="btn" style="margin-top: 10px; background: var(--primary-color);" onclick="switchEditProfile()" id="edit-profile-btn">Edit Profile</button>
+        <button class="btn" style="margin-top: 6px; background: #666;" onclick="closeProfile()">Band Karein</button>
+    </div>
+
+    <div class="container">
+        <div id="home-section" class="page-section active">
+            <div class="hero-banner">
+                <h2>Welcome to Abdul Subhan Store</h2>
+                <p>Aapke ghar ka saara daily use ka samaan ab aik click par!</p>
+                <button class="shop-now-btn" onclick="switchTab('shop')">Start Shopping Now</button>
+            </div>
+
+            <div class="promo-banner">
+                ✨ Order karein aur paein behtareen home delivery service Landhi mein!
+            </div>
+
+            <h3 class="category-title">Featured Categories</h3>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 8px;">
+                <div onclick="switchTab('shop'); filterCategory('grocery', document.querySelectorAll('.cat-chip')[1])" style="background: var(--card-bg); padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 0.85rem;">
+                    <span>🛒 Grocery & Staples (Rashan)</span><span>→</span>
+                </div>
+                <div onclick="switchTab('shop'); filterCategory('snacks', document.querySelectorAll('.cat-chip')[3])" style="background: var(--card-bg); padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 0.85rem;">
+                    <span>🍿 Snacks & Sweets (Lays/Biscuits)</span><span>→</span>
+                </div>
+                <div onclick="switchTab('shop'); filterCategory('dairy', document.querySelectorAll('.cat-chip')[4])" style="background: var(--card-bg); padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 0.85rem;">
+                    <span>🥛 Dairy & Breakfast (Eggs/Bread)</span><span>→</span>
+                </div>
+                <div onclick="switchTab('shop'); filterCategory('skincare', document.querySelectorAll('.cat-chip')[5])" style="background: var(--card-bg); padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 0.85rem;">
+                    <span>🧴 Personal Care & Household</span><span>→</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="shop-section" class="page-section">
+            <div class="categories-container">
+                <div class="cat-chip active" onclick="filterCategory('all', this)">All Items</div>
+                <div class="cat-chip" onclick="filterCategory('grocery', this)">Grocery & Staples</div>
+                <div class="cat-chip" onclick="filterCategory('beverages', this)">Beverages</div>
+                <div class="cat-chip" onclick="filterCategory('snacks', this)">Snacks & Sweets</div>
+                <div class="cat-chip" onclick="filterCategory('dairy', this)">Dairy & Breakfast</div>
+                <div class="cat-chip" onclick="filterCategory('skincare', this)">Personal Care</div>
+            </div>
+
+            <div class="product-grid" id="product-grid">
+                
+                <div class="card" data-category="grocery">
+   <img src="https://images.unsplash.com/photo-1589367920969-ab8e0508117d?w=400" alt="Aata">
+                    <h3>Aata (Flour)</h3>
+                    <p class="variety">Fine Quality (10kg)</p>
+                    <p class="price">Rs. 1,450</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Chakki Aata (10kg)', 1450, -1)">-</button>
+                        <span class="qty-display" id="qty-Chakki Aata (10kg)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Chakki Aata (10kg)', 1450, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Chakki Aata (10kg)', 1450)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400" alt="Chawal">
+                    <h3>Super Kernel Basmati</h3>
+                    <p class="variety">Long Grain (1kg)</p>
+                    <p class="price">Rs. 320</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Super Kernel Chawal (1kg)', 320, -1)">-</button>
+                        <span class="qty-display" id="qty-Super Kernel Chawal (1kg)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Super Kernel Chawal (1kg)', 320, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Super Kernel Chawal (1kg)', 320)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+          <img src="https://images.unsplash.com/photo-1514944298352-f4d732115f74?w=400" alt="Sugar">
+                    <h3>Pure Crystal Sugar</h3>
+                    <p class="variety">Safaid Cheeni (1kg)</p>
+                    <p class="price">Rs. 145</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Safaid Cheeni (1kg)', 145, -1)">-</button>
+                        <span class="qty-display" id="qty-Safaid Cheeni (1kg)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Safaid Cheeni (1kg)', 145, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Safaid Cheeni (1kg)', 145)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400" alt="Cooking Oil">
+                    <h3>Habib Cooking Oil</h3>
+                    <p class="variety">Mezan / Dalda (1L)</p>
+                    <p class="price">Rs. 570</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Habib Cooking Oil (1L)', 570, -1)">-</button>
+                        <span class="qty-display" id="qty-Habib Cooking Oil (1L)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Habib Cooking Oil (1L)', 570, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Habib Cooking Oil (1L)', 570)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="Daal Chana">
+                    <h3>Daal Chana Special</h3>
+                    <p class="variety">Cleaned & Sorted (1kg)</p>
+                    <p class="price">Rs. 320</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Daal Chana (1kg)', 320, -1)">-</button>
+                        <span class="qty-display" id="qty-Daal Chana (1kg)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Daal Chana (1kg)', 320, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Daal Chana (1kg)', 320)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="Daal Mash">
+                    <h3>Daal Mash Special</h3>
+                    <p class="variety">Washed (1kg)</p>
+                    <p class="price">Rs. 480</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Daal Mash (1kg)', 480, -1)">-</button>
+                        <span class="qty-display" id="qty-Daal Mash (1kg)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Daal Mash (1kg)', 480, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Daal Mash (1kg)', 480)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400" alt="Besan">
+                    <h3>Pure Chana Besan</h3>
+                    <p class="variety">Fine Quality (1kg)</p>
+                    <p class="price">Rs. 260</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Besan (1kg)', 260, -1)">-</button>
+                        <span class="qty-display" id="qty-Besan (1kg)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Besan (1kg)', 260, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Besan (1kg)', 260)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400" alt="Masala">
+                    <h3>National Biryani Masala</h3>
+                    <p class="variety">Standard Pack</p>
+                    <p class="price">Rs. 130</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('National Biryani Masala', 130, -1)">-</button>
+                        <span class="qty-display" id="qty-National Biryani Masala">0</span>
+                        <button class="qty-btn" onclick="changeQty('National Biryani Masala', 130, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('National Biryani Masala', 130)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=400" alt="Chilli Powder">
+                    <h3>Red Chilli Powder</h3>
+                    <p class="variety">Peesi Mirch (200g)</p>
+                    <p class="price">Rs. 220</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Red Chilli Powder (200g)', 220, -1)">-</button>
+                        <span class="qty-display" id="qty-Red Chilli Powder (200g)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Red Chilli Powder (200g)', 220, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Red Chilli Powder (200g)', 220)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1518977676601-b5ff321003b3?w=400" alt="Salt">
+                    <h3>Shan Salt (Iodized)</h3>
+                    <p class="variety">Polybag (800g)</p>
+                    <p class="price">Rs. 65</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Shan Salt (800g)', 65, -1)">-</button>
+                        <span class="qty-display" id="qty-Shan Salt (800g)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Shan Salt (800g)', 65, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Shan Salt (800g)', 65)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="grocery">
+                    <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=400" alt="Tea">
+                    <h3>Tapal Danedar Tea</h3>
+                    <p class="variety">Tea Box (200g)</p>
+                    <p class="price">Rs. 380</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Tapal Danedar (200g)', 380, -1)">-</button>
+                        <span class="qty-display" id="qty-Tapal Danedar (200g)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Tapal Danedar (200g)', 380, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Tapal Danedar (200g)', 380)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="beverages">
+                    <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400" alt="Sting">
+                    <h3>Sting Energy Drink</h3>
+                    <p class="variety">Cold Energy (500ml)</p>
+                    <p class="price">Rs. 130</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Sting Energy Drink (500ml)', 130, -1)">-</button>
+                        <span class="qty-display" id="qty-Sting Energy Drink (500ml)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Sting Energy Drink (500ml)', 130, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Sting Energy Drink (500ml)', 130)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="beverages">
+                    <img src="https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=400" alt="Pepsi">
+                    <h3>Pepsi Cold Drink</h3>
+                    <p class="variety">1.5 Litre Bottle</p>
+                    <p class="price">Rs. 280</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Pepsi (1.5L)', 280, -1)">-</button>
+                        <span class="qty-display" id="qty-Pepsi (1.5L)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Pepsi (1.5L)', 280, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Pepsi (1.5L)', 280)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="beverages">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400" alt="7Up">
+                    <h3>7Up Clear Lemon</h3>
+                    <p class="variety">1.5 Litre Bottle</p>
+                    <p class="price">Rs. 280</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('7Up (1.5L)', 280, -1)">-</button>
+                        <span class="qty-display" id="qty-7Up (1.5L)">0</span>
+                        <button class="qty-btn" onclick="changeQty('7Up (1.5L)', 280, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('7Up (1.5L)', 280)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="beverages">
+                    <img src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400" alt="Water">
+                    <h3>Aquafina Mineral Water</h3>
+                    <p class="variety">1.5 Litre Bottle</p>
+                    <p class="price">Rs. 100</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Aquafina Water (1.5L)', 100, -1)">-</button>
+                        <span class="qty-display" id="qty-Aquafina Water (1.5L)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Aquafina Water (1.5L)', 100, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Aquafina Water (1.5L)', 100)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="snacks">
+                    <img src="https://images.unsplash.com/photo-1621939514649-280e2ee25f60?w=400" alt="Gluco">
+                    <h3>Gluco Biscuits</h3>
+                    <p class="variety">Large Family Pack</p>
+                    <p class="price">Rs. 60</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Gluco Biscuits (60)', 60, -1)">-</button>
+                        <span class="qty-display" id="qty-Gluco Biscuits (60)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Gluco Biscuits (60)', 60, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Gluco Biscuits (60)', 60)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="snacks">
+                    <img src="https://images.unsplash.com/photo-1590080875515-8a3a8dc5735e?w=400" alt="Cake Up">
+                    <h3>Peak Freans Cake Up</h3>
+                    <p class="variety">Chocolate Flavor</p>
+                    <p class="price">Rs. 50</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Cake Up (50)', 50, -1)">-</button>
+                        <span class="qty-display" id="qty-Cake Up (50)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Cake Up (50)', 50, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Cake Up (50)', 50)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="snacks">
+                    <img src="https://images.unsplash.com/photo-1566478989037-eec1707840b0?w=400" alt="Lays Chips">
+                    <h3>Super Crisp / Lays Chips</h3>
+                    <p class="variety">Family Pack</p>
+                    <p class="price">Rs. 50</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Super Crisp Chips (50)', 50, -1)">-</button>
+                        <span class="qty-display" id="qty-Super Crisp Chips (50)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Super Crisp Chips (50)', 50, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Super Crisp Chips (50)', 50)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="snacks">
+                    <img src="https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=400" alt="Dairy Milk">
+                    <h3>Cadbury Dairy Milk</h3>
+                    <p class="variety">Medium Bar</p>
+                    <p class="price">Rs. 200</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Dairy Milk Chocolate', 200, -1)">-</button>
+                        <span class="qty-display" id="qty-Dairy Milk Chocolate">0</span>
+                        <button class="qty-btn" onclick="changeQty('Dairy Milk Chocolate', 200, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Dairy Milk Chocolate', 200)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="snacks">
+                    <img src="https://images.unsplash.com/photo-1621441029512-080ed079947c?w=400" alt="Kolson Slanty">
+                    <h3>Kolson Slanty / Nimco</h3>
+                    <p class="variety">Spicy Flavor Pack</p>
+                    <p class="price">Rs. 40</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Kolson Slanty (40)', 40, -1)">-</button>
+                        <span class="qty-display" id="qty-Kolson Slanty (40)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Kolson Slanty (40)', 40, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Kolson Slanty (40)', 40)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="dairy">
+                    <img src="https://images.unsplash.com/photo-1550583724-b2692b85b150?w=400" alt="Milk">
+                    <h3>Olpers Milk (Litre)</h3>
+                    <p class="variety">1Litre Pack</p>
+                    <p class="price">Rs. 368</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Olpers Milk (1L)', 368, -1)">-</button>
+                        <span class="qty-display" id="qty-Olpers Milk (1L)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Olpers Milk (1L)', 368, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Olpers Milk (1L)', 368)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="dairy">
+                    <img src="https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400" alt="Eggs">
+                    <h3>Farm Fresh Eggs</h3>
+                    <p class="variety">Dozen (30pcs)</p>
+                    <p class="price">Rs. 320</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Farm Eggs (Dozen)', 320, -1)">-</button>
+                        <span class="qty-display" id="qty-Farm Eggs (Dozen)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Farm Eggs (Dozen)', 320, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Farm Eggs (Dozen)', 320)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="dairy">
+                    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400" alt="Bread">
+                    <h3>Dawn Large Bread</h3>
+                    <p class="variety">Milky / Plain Loaf</p>
+                    <p class="price">Rs. 220</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Dawn Bread (220)', 220, -1)">-</button>
+                        <span class="qty-display" id="qty-Dawn Bread (220)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Dawn Bread (220)', 220, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Dawn Bread (220)', 220)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="dairy">
+                    <img src="https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400" alt="Butter">
+                    <h3>Adams Dairy Butter</h3>
+                    <p class="variety">Butter Blog Pack</p>
+                    <p class="price">Rs. 280</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Adams Butter (100g)', 280, -1)">-</button>
+                        <span class="qty-display" id="qty-Adams Butter (100g)">0</span>
+                        <button class="qty-btn" onclick="changeQty('Adams Butter (100g)', 280, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Adams Butter (100g)', 280)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="skincare">
+                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" alt="Face Wash">
+                    <h3>Jenpharm Face Wash</h3>
+                    <p class="variety">Dermive Oil Free</p>
+                    <p class="price">Rs. 850</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Jenpharm Face Wash', 850, -1)">-</button>
+                        <span class="qty-display" id="qty-Jenpharm Face Wash">0</span>
+                        <button class="qty-btn" onclick="changeQty('Jenpharm Face Wash', 850, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Jenpharm Face Wash', 850)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="skincare">
+                    <img src="https://images.unsplash.com/photo-1608248597359-f37b19813d10?w=400" alt="Moisturizer">
+                    <h3>CeraVe Moisturizer</h3>
+                    <p class="variety">Daily Lotion</p>
+                    <p class="price">Rs. 1,500</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('CeraVe Moisturizer', 1500, -1)">-</button>
+                        <span class="qty-display" id="qty-CeraVe Moisturizer">0</span>
+                        <button class="qty-btn" onclick="changeQty('CeraVe Moisturizer', 1500, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('CeraVe Moisturizer', 1500)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="skincare">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=400" alt="Soap">
+                    <h3>Safeguard Soap</h3>
+                    <p class="variety">Family Size</p>
+                    <p class="price">Rs. 140</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Safeguard Soap', 140, -1)">-</button>
+                        <span class="qty-display" id="qty-Safeguard Soap">0</span>
+                        <button class="qty-btn" onclick="changeQty('Safeguard Soap', 140, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Safeguard Soap', 140)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="skincare">
+                    <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400" alt="Toothpaste">
+                    <h3>Colgate Toothpaste</h3>
+                    <p class="variety">Max Fresh (Large)</p>
+                    <p class="price">Rs. 320</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Colgate Toothpaste', 320, -1)">-</button>
+                        <span class="qty-display" id="qty-Colgate Toothpaste">0</span>
+                        <button class="qty-btn" onclick="changeQty('Colgate Toothpaste', 320, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Colgate Toothpaste', 320)">Add to Cart</button>
+                </div>
+
+                <div class="card" data-category="skincare">
+                    <img src="https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=400" alt="Shampoo">
+                    <h3>Head & Shoulders Shampoo</h3>
+                    <p class="variety">Bottle Pack</p>
+                    <p class="price">Rs. 650</p>
+                    <div class="qty-controls">
+                        <button class="qty-btn" onclick="changeQty('Head and Shoulders', 650, -1)">-</button>
+                        <span class="qty-display" id="qty-Head and Shoulders">0</span>
+                        <button class="qty-btn" onclick="changeQty('Head and Shoulders', 650, 1)">+</button>
+                    </div>
+                    <button class="btn" onclick="addToCartDirect('Head and Shoulders', 650)">Add to Cart</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="cart-section" class="page-section">
+            <h3 class="category-title">Your Cart & Pro Checkout</h3>
+            
+            <div id="cart-items-container">
+                </div>
+
+            <div class="subtotal-card">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal">Rs. 0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Fee:</span>
+                    <span id="cart-delivery-fee">Rs. 250</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="cart-total-display">Rs. 0</span>
+                </div>
+            </div>
+
+            <div class="checkout-container">
+                <div class="section-heading">Delivery Method</div>
+                <label class="radio-option">
+                    <input type="radio" name="delivery" value="Express Now (Within 1 Hour)" checked onchange="updateDeliveryFee(250)">
+                    <div>
+                        <strong>Express Now (Within 1 hour & 5km)</strong><br>
+                        <span style="font-size: 0.72rem; color: #888;">Landhi & nearby areas. Rs. 250.00</span>
+                    </div>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="delivery" value="Standard Delivery (1-2 Days)" onchange="updateDeliveryFee(150)">
+                    <div>
+                        <strong>Standard Delivery (1-2 Days)</strong><br>
+                        <span style="font-size: 0.72rem; color: #888;">Normal home delivery. Rs. 150.00</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="checkout-container">
+                <div class="section-heading">Payment Method</div>
+                <label class="radio-option">
+                    <input type="radio" name="payment" value="EasyPaisa" onchange="togglePaymentFields('easypaisa')">
+                    <strong>EasyPaisa</strong>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="payment" value="JazzCash" onchange="togglePaymentFields('jazzcash')">
+                    <strong>JazzCash</strong>
+                </label>
+                <label class="radio-option">
+                    <input type="radio" name="payment" value="Cash on Delivery (COD)" checked onchange="togglePaymentFields('cod')">
+                    <strong>Cash on Delivery (COD)</strong>
+                </label>
+
+                <div id="mobile-wallet-box" style="display: none; background: rgba(76,175,80,0.05); padding: 0.6rem; border-radius: 6px; margin-top: 8px;">
+                    <label style="font-size: 0.75rem; font-weight: bold;">Enter Transaction ID (TID):</label>
+                    <input type="text" id="transaction-id" class="profile-input" placeholder="Enter Transaction ID / Reference No">
+                </div>
+            </div>
+
+            <div class="checkout-container">
+                <div class="section-heading">Billing & Shipping Details</div>
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" id="cust-name" class="profile-input" placeholder="Apna poora naam likhein...">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address / Area:</label>
+                    <input type="text" id="cust-address" class="profile-input" placeholder="Landhi Block #, House #...">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number:</label>
+                    <input type="text" id="cust-phone" class="profile-input" placeholder="03XXXXXXXXX">
+                </div>
+
+                <button class="complete-order-btn" onclick="completeOrderWhatsApp()">Complete Order via WhatsApp</button>
+            </div>
+        </div>
+
+        <div id="about-section" class="page-section">
+            <h3 class="category-title">About Abdul Subhan Store</h3>
+            <div style="background: var(--card-bg); padding: 1rem; border-radius: 8px; border: 1px solid var(--border-color); font-size: 0.85rem; line-height: 1.5;">
+                <h4 style="color: var(--primary-color); margin-bottom: 8px;">Kahaani</h4>
+                <p>Abdul Subhan General Store aapka apna trusted local store hai jo Landhi, Karachi mein pure aur fresh grocery items faraham karta hai.</p>
+                <p style="margin-top: 10px;"><strong>Contact:</strong> 03173210317</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-notification">Item added to cart!</div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" id="nav-home" onclick="switchTab('home')">
+            <span>🏠</span>
+            <span>Home</span>
+        </button>
+        <button class="nav-item" id="nav-shop" onclick="switchTab('shop')">
+            <span>🛍️</span>
+            <span>Shop</span>
+        </button>
+        <button class="nav-item" id="nav-cart" onclick="switchTab('cart')">
+            <span>🛒</span>
+            <span>Cart</span>
+        </button>
+        <button class="nav-item" id="nav-about" onclick="switchTab('about')">
+            <span>📖</span>
+            <span>About</span>
+        </button>
+    </nav>
+
+    <script>
+        let cart = {};
+        let currentDeliveryFee = 250;
+
+        window.onload = function() {
+            loadProfileData();
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+
+            if(tabName === 'home') {
+                document.getElementById('home-section').classList.add('active');
+                document.getElementById('nav-home').classList.add('active');
+            } else if(tabName === 'shop') {
+                document.getElementById('shop-section').classList.add('active');
+                document.getElementById('nav-shop').classList.add('active');
+            } else if(tabName === 'cart') {
+                document.getElementById('cart-section').classList.add('active');
+                document.getElementById('nav-cart').classList.add('active');
+                renderCartPage();
+            } else if(tabName === 'about') {
+                document.getElementById('about-section').classList.add('active');
+                document.getElementById('nav-about').classList.add('active');
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMenu() {
+            let menu = document.getElementById('dropdownMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function openProfile() {
+            document.getElementById('profileModal').style.display = 'block';
+            document.getElementById('dropdownMenu').style.display = 'none';
+        }
+
+        function closeProfile() {
+            document.getElementById('profileModal').style.display = 'none';
+        }
+
+        function switchEditProfile() {
+            let editDiv = document.getElementById('profileEditMode');
+            if(editDiv.style.display === 'none') {
+                editDiv.style.display = 'block';
+                document.getElementById('edit-profile-btn').innerText = 'Hide Edit';
+                document.getElementById('edit-name').value = localStorage.getItem('abdul_subhan_name') || '';
+                document.getElementById('edit-phone').value = localStorage.getItem('abdul_subhan_phone') || '';
+                document.getElementById('edit-address').value = localStorage.getItem('abdul_subhan_address') || '';
+            } else {
+                editDiv.style.display = 'none';
+                document.getElementById('edit-profile-btn').innerText = 'Edit Profile';
+            }
+        }
+
+        function saveProfile() {
+            let name = document.getElementById('edit-name').value.trim();
+            let phone = document.getElementById('edit-phone').value.trim();
+            let address = document.getElementById('edit-address').value.trim();
+
+            if(!name) {
+                alert("Please enter a name");
+                return;
+            }
+
+            localStorage.setItem('abdul_subhan_name', name);
+            localStorage.setItem('abdul_subhan_phone', phone);
+            localStorage.setItem('abdul_subhan_address', address);
+
+            loadProfileData();
+            switchEditProfile();
+            showToast("Profile updated successfully!");
+        }
+
+        function loadProfileData() {
+            let name = localStorage.getItem('abdul_subhan_name');
+            let phone = localStorage.getItem('abdul_subhan_phone');
+            let address = localStorage.getItem('abdul_subhan_address');
+
+            document.getElementById('profile-display-name').innerText = name ? name : 'Guest User';
+            document.getElementById('profile-display-phone').innerText = phone ? phone : 'Not Provided';
+            document.getElementById('profile-display-address').innerText = address ? address : 'Not Provided';
+
+            if(document.getElementById('cust-name') && name) document.getElementById('cust-name').value = name;
+            if(document.getElementById('cust-phone') && phone) document.getElementById('cust-phone').value = phone;
+            if(document.getElementById('cust-address') && address) document.getElementById('cust-address').value = address;
+        }
+
+        function toggleDarkMode() {
+            let htmlElement = document.documentElement;
+            if(htmlElement.getAttribute('data-theme') === 'dark') {
+                htmlElement.setAttribute('data-theme', 'light');
+            } else {
+                htmlElement.setAttribute('data-theme', 'dark');
+            }
+            document.getElementById('dropdownMenu').style.display = 'none';
+        }
+
+        function showToast(msg) {
+            let toast = document.getElementById('toast-notification');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+
+        function changeQty(itemName, itemPrice, qty) {
+            if(!cart[itemName]) {
+                cart[itemName] = { price: itemPrice, qty: 0 };
+            }
+            cart[itemName].qty += qty;
+            if(cart[itemName].qty <= 0) {
+                delete cart[itemName];
+            }
+            let dispElement = document.getElementById('qty-' + itemName);
+            if(dispElement) {
+                dispElement.innerText = cart[itemName] ? cart[itemName].qty : 0;
+            }
+            updateGlobalBadge();
+        }
+
+        function addToCartDirect(itemName, itemPrice) {
+            changeQty(itemName, itemPrice, 1);
+            showToast(itemName + " cart mein add ho gaya!");
+        }
+
+        function removeFromCart(itemName) {
+            delete cart[itemName];
+            let dispElement = document.getElementById('qty-' + itemName);
+            if(dispElement) dispElement.innerText = 0;
+            renderCartPage();
+            updateGlobalBadge();
+        }
+
+        function updateGlobalBadge() {
+            let totalCount = 0;
+            for(let item in cart) {
+                totalCount += cart[item].qty;
+            }
+            document.getElementById('cart-badge-count').innerText = totalCount;
+        }
+
+        function updateDeliveryFee(fee) {
+            currentDeliveryFee = fee;
+            renderCartPage();
+        }
+
+        function togglePaymentFields(type) {
+            let box = document.getElementById('mobile-wallet-box');
+            let label = document.getElementById('transaction-id');
+            if(type === 'easypaisa' || type === 'jazzcash') {
+                box.style.display = 'block';
+                label.placeholder = "Enter " + type + " Transaction ID / TID";
+            } else {
+                box.style.display = 'none';
+            }
+        }
+
+        function renderCartPage() {
+            let container = document.getElementById('cart-items-container');
+            let summaryBox = document.querySelector('.subtotal-card');
+            
+            let keys = Object.keys(cart);
+            if(keys.length === 0) {
+                container.innerHTML = '<p style="text-align: center; padding: 2rem; color: #888; font-size: 0.85rem;">Aapka cart khaali hai. Pehle kuch shop se add karein!</p>';
+                summaryBox.style.display = 'none';
+                return;
+            }
+
+            summaryBox.style.display = 'block';
+
+            let html = '';
+            let subtotal = 0;
+
+            for(let itemName in cart) {
+                let itemTotal = cart[itemName].price * cart[itemName].qty;
+                subtotal += itemTotal;
+
+                html += `
+                    <div class="cart-item-row">
+                        <div class="cart-item-header">
+                            <span>${itemName}</span>
+                            <span>Rs. ${itemTotal}</span>
+                        </div>
+                        <div class="cart-item-controls">
+                            <div class="qty-controls" style="margin-bottom:0;">
+                                <button class="qty-btn" onclick="changeQty('${itemName}', ${cart[itemName].price}, -1); renderCartPage(); updateGlobalBadge();">-</button>
+                                <span class="qty-display">${cart[itemName].qty}</span>
+                                <button class="qty-btn" onclick="changeQty('${itemName}', ${cart[itemName].price}, 1); renderCartPage(); updateGlobalBadge();">+</button>
+                            </div>
+                            <button class="remove-item-btn" onclick="removeFromCart('${itemName}')">Remove (✕)</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+            
+            document.getElementById('cart-subtotal').innerText = 'Rs. ' + subtotal;
+            document.getElementById('cart-delivery-fee').innerText = 'Rs. ' + currentDeliveryFee;
+            
+            let grandTotal = subtotal + currentDeliveryFee;
+            document.getElementById('cart-total-display').innerText = 'Rs. ' + grandTotal;
+        }
+
+        function filterCategory(cat, element) {
+            document.querySelectorAll('.cat-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            let cards = document.querySelectorAll('.product-grid .card');
+            cards.forEach(card => {
+                if(cat === 'all' || card.getAttribute('data-category') === cat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function completeOrderWhatsApp() {
+            let name = document.getElementById('cust-name').value.trim();
+            let address = document.getElementById('cust-address').value.trim();
+            let phone = document.getElementById('cust-phone').value.trim();
+
+            if(!name || !address || !phone) {
+                alert("Barah-e-karam apni saari details (Naam, Address, Phone) mukammal bharein!");
+                return;
+            }
+
+            let deliveryMethod = document.querySelector('input[name="delivery"]:checked').value;
+            let paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            let tid = document.getElementById('transaction-id').value.trim();
+
+            let subtotal = 0;
+            let message = `*New Order - Abdul Subhan Store*\n\n*Customer Details:*\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\n\n*Items:*\n`;
+
+            for(let itemName in cart) {
+                let itemTotal = cart[itemName].price * cart[itemName].qty;
+                subtotal += itemTotal;
+                message += `- ${itemName} x ${cart[itemName].qty} = Rs. ${itemTotal}\n`;
+            }
+
+            let grandTotal = subtotal + currentDeliveryFee;
+            message += `\nSubtotal: Rs. ${subtotal}\nDelivery Fee: Rs. ${currentDeliveryFee}\n*Total: Rs. ${grandTotal}*\n\n*Delivery Method:* ${deliveryMethod}\n*Payment Method:* ${paymentMethod}`;
+
+            if((paymentMethod === 'EasyPaisa' || paymentMethod === 'JazzCash') && tid) {
+                message += `\n*Transaction ID (TID):* ${tid}`;
+            }
+
+            let encodedMessage = encodeURIComponent(message);
+            let whatsappUrl = `https://wa.me/923173210317?text=${encodedMessage}`;
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
 
